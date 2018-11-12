@@ -10,6 +10,10 @@ class Block(object):
         '''
         for k, v in dictionary.items():
             setattr(self, k, v)
+
+        if not hasattr(self, 'nonce'):
+            #we're throwin this in for generation
+            self.nonce = 'None'
         if not hasattr(self, 'hash'): #in creating the first block, needs to be removed in future
             self.hash = self.create_self_hash()
 
@@ -20,6 +24,7 @@ class Block(object):
         info['prev_hash'] = str(self.prev_hash)
         info['hash'] = str(self.hash)
         info['data'] = str(self.data)
+        info['nonce'] = str(self.nonce)
         return info
 
     def __str__(self):
@@ -47,7 +52,8 @@ def create_first_block():
     block_data['index'] = 0
     block_data['timestamp'] = date.datetime.now()
     block_data['data'] = 'First block data'
-    block_data['prev_hash'] = None
+    block_data['prev_hash'] = ''
+    block_data['nonce'] = 0 #starting it at 0
     block = Block(block_data)
     return block
 

@@ -5,39 +5,39 @@ from block import Block
 
 NUM_ZEROS = 5
 
-def generate_header(index, prev_hash, data, timestamp, nonce):
-    return str(index) + prev_hash + data + str(timestamp) + str(nonce)
+def mine_for_block():
+    print "mine for block sync"
+    current_chain = sync.sync_local() #gather last node
+    print "mine for block sync done"
+    prev_block = current_chain.most_recent_block()
+    new_block = mine_blocks(prev_block)
+    new_block.self_save()
+    return new_block
 
-def calculate_hash(index, prev_hash, data, timestamp, nonce):
-    header_string = generate_header(index, prev_hash, data, timestamp, nonce)
-    sha = hashlib.sha256()
-    sha.update(header_string)
-    return sha.hexdigest()
-
-def mine(last_block):
+def mine_blocks(last_block):
     index = int(last_block.index) + 1
-    timestamp = date.datetime.now()
+    timestamp = date.datetime.now().strftime('%s')
     data = "I block #%s" % (int(last_block.index) + 1) #random string for now, not transactions
     prev_hash = last_block.hash
     nonce = 0
 
-    block_hash = calculate_hash(index, prev_hash, data, timestamp, nonce)
-    while str(block_hash[0:NUM_ZEROS]) != '0' * NUM_ZEROS:
-        nonce += 1
-        block_hash = calculate_hash(index, prev_hash, data, timestamp, nonce)
+    block_info_dict = utils.dict_from_block_attributes(index=index, timestamp=timestamp, data=data, prev_hash=prev_hash, nonce=nonce)
+    new_block = Block(block_info_dict)
+    return find_valid_nonce(new_block)
 
-    #dictionary to create the new block object.
-    block_data = {}
-    block_data['index'] = index
-    block_data['prev_hash'] = last_block.hash
-    block_data['timestamp'] = timestamp
-    block_data['data'] = "Gimme %s dollars" % index
-    block_data['hash'] = block_hash
-    block_data['nonce'] = nonce
-    return Block(block_data)
+def find_valid_nonce(new_block):
+    print "mining for block %s" % new_block.index
+    new_block.update_self_hash()#calculate_hash(index, prev_hash, data, timestamp, nonce)
+    while str(new_block.hash[0:NUM_ZEROS]) != '0' * NUM_ZEROS:
+        new_block.nonce += 1
+        new_block.update_self_hash()
+
+    print "block %s mined. Nonce: %s" % (new_block.index, new_block.nonce)
+
+    assert new_block.is_valid()
+    return new_block #we mined the block. We're going to want to save it
+
+    #return True
 
 if __name__ == '__main__':
-    node_blocks = sync.sync() #gather last node
-    prev_block = node_blocks[-1]
-    new_block = mine(prev_block)
-    new_block.self_save()
+    mine_for_block()

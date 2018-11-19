@@ -53,6 +53,8 @@ class Chain(object):
                 return False
         return True
 
+    def __ne__(self, other):
+        return not self.__eq__(other)
     def __gt__(self, other):
         return len(self.blocks) > len(other.blocks)
 
@@ -79,6 +81,11 @@ class Chain(object):
             That is, if the index is of one that currently exists, the new block
             would take it's place. Then we want to see if that block is valid.
             If it isn't, then we ditch the new block and return False.
+        '''
+        '''
+            When we add a block, we want to find the block with the same index,
+            remove the current block and the rest of the blocks with higher index,
+            and
         '''
         if new_block.index > len(self):
             pass

@@ -2,8 +2,8 @@ import hashlib
 import sync
 import datetime as date
 from block import Block
-
-NUM_ZEROS = 5
+from config import *
+import utils
 
 def mine_for_block():
     print "mine for block sync"

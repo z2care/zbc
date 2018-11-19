@@ -1,7 +1,8 @@
 import datetime as date
 import hashlib
-import json
 import os
+import json
+
 
 from config import *
 
@@ -24,7 +25,7 @@ class Block(object):
 
     def header_string(self):
         return str(self.index) + self.prev_hash + self.data + str(self.timestamp) + str(self.nonce)
-    def generate_header(self):
+    def generate_header(index, prev_hash, data, timestamp, nonce):
         return str(index) + prev_hash + data + str(timestamp) + str(nonce)
 
     def update_self_hash(self):
@@ -51,6 +52,7 @@ class Block(object):
         info['hash'] = str(self.hash)
         info['data'] = str(self.data)
         info['nonce'] = str(self.nonce)
+        return info
 
     def is_valid(self):
         '''

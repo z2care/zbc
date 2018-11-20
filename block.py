@@ -25,15 +25,12 @@ class Block(object):
 
     def header_string(self):
         return str(self.index) + self.prev_hash + self.data + str(self.timestamp) + str(self.nonce)
-    def generate_header(index, prev_hash, data, timestamp, nonce):
-        return str(index) + prev_hash + data + str(timestamp) + str(nonce)
 
     def update_self_hash(self):
         sha = hashlib.sha256()
         sha.update(self.header_string())
-        new_hash = sha.hexdigest()
-        self.hash = new_hash
-        return new_hash
+        self.hash = sha.hexdigest()
+        return self.hash
 
     def self_save(self):
         '''

@@ -22,10 +22,10 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     #check if dir is empty from just creation, or empty before
-    if os.path.exists(CHAINDATA_DIR):
+    if not os.path.exists(CHAINDATA_DIR):
         os.mkdir(CHAINDATA_DIR)
 
-    if not args.first: #if we want to mine the first block on our own
+    if args.first: #if we want to mine the first block on our own
         #need to check to see if there are any blocks in this
         if os.listdir(CHAINDATA_DIR) == []:
             #create the first block

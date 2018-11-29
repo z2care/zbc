@@ -8,7 +8,7 @@ then
   exit 1
 fi
 
-FILES=(block.py chain.py config.py mine.py node.py sync.py utils.py)
+FILES=(block.py chain.py config.py genesis.py mine.py node.py sync.py test.py utils.py)
 
 mkdir $port
 for file in "${FILES[@]}"

@@ -27,3 +27,8 @@ Zarey's Blockchain -- Simple blockchain to learn and talk about how blockchains 
 17. tzlocal
 18. urllib3
 19. Werkzeug
+
+## Changes
+1. This project named zbc since I fixed some bugs from origin jbc
+2. Add part 4 which introduced in post
+3. Add travis ci for master branch

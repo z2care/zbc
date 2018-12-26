@@ -33,3 +33,4 @@ Zarey's Blockchain -- Simple blockchain to learn and talk about how blockchains 
 2. Add part 4 which introduced in post
 3. Add travis ci for master branch
 4. Add more feature for this project
+5. Test all case for the project
